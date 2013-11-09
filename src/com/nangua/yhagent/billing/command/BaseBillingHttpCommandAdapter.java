@@ -3,33 +3,33 @@ package com.nangua.yhagent.billing.command;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.nangua.yhagent.pms.bean.XBean;
-import com.nangua.yhagent.pms.bean.xml.Helper;
+import com.nangua.yhagent.billing.bean.base.Auth;
+import com.nangua.yhagent.billing.bean.base.Request;
+import com.nangua.yhagent.billing.bean.base.RequestInfo;
+import com.nangua.yhagent.billing.bean.base.RequestWrapper;
 
 @Service
 @Scope("prototype")
 public   class BaseBillingHttpCommandAdapter  extends BaseBillingHttpCommand{
-	private XBean bean;
-	private String commandId;
-	 
-	public BaseBillingHttpCommandAdapter setXBean(XBean bean){
-	 this.bean=bean;
+	private RequestInfo  requestInfo;
+	private Auth  auth   ;
+	private com.nangua.yhagent.billing.bean.base.Service  service  ;
+	public BaseBillingHttpCommandAdapter setData(RequestInfo requestInfo,Auth auth,com.nangua.yhagent.billing.bean.base.Service  service){
+	  this.requestInfo=requestInfo;
+	  this.auth=auth;
+	  this.service=service;
 	 return this;
 	}
-	public BaseBillingHttpCommandAdapter setCommandId(String commandId){
-		this.commandId=commandId;
-		return this;
-	}
+ 
 	@Override
 	public String cmdBody() {
-	    return Helper.genXmlStr(bean);
+	    Request request= RequestWrapper.genRequest(requestInfo);
+	    request.Auth=auth;
+	    request.Service=service;
+	    return request.toXml();
 	}
-	@Override
-	public String genCommandId() {
-		// TODO Auto-generated method stub
-		return commandId;
-	}
-
+	 
+	 
 	 
 
 }

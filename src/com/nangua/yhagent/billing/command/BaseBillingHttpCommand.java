@@ -14,6 +14,8 @@ import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import com.nangua.yhagent.billing.bean.base.Auth;
+import com.nangua.yhagent.billing.bean.base.Service;
 import com.nangua.yhagent.billing.main.BillingChannelFactory;
 
 public abstract class BaseBillingHttpCommand  {
@@ -25,13 +27,14 @@ public abstract class BaseBillingHttpCommand  {
 	private BillingChannelFactory channelFactory;
 	
 	 
-	public abstract String genCommandId();
-
+ 
+    
 	public abstract String cmdBody();
  
 	
    
-	public void execute(String xmlContent) {
+	public void execute() {
+		  String xmlContent=cmdBody();
 		Channel channel =channelFactory.getYHChannel();
 	    HttpDataFactory factory = new DefaultHttpDataFactory(DefaultHttpDataFactory.MINSIZE);
 
