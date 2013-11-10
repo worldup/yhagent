@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Service;
 
 import com.nangua.yhagent.billing.bean.Occupancy;
 import com.nangua.yhagent.billing.bean.VodLog;
@@ -20,84 +21,130 @@ import com.nangua.yhagent.billing.bean.requestinfo.SetTimeshiftDayPriceRequestIn
 import com.nangua.yhagent.billing.bean.requestinfo.VodDayPriceRequestInfo;
 import com.nangua.yhagent.billing.command.BillingInvoker;
 
+@Service
 public class BillingHttpClient {
+
 	public static void main(String[] args) {
-
-		ApplicationContext context = new ClassPathXmlApplicationContext(
-				new String[] { "yhagent-ioc.xml" });
-
-		BillingInvoker invoker = context.getBean(BillingInvoker.class);
-
-		invoker.releaseResource();
-
+		BillingInvoker invoker = null;
+		try {
+			ApplicationContext context = new ClassPathXmlApplicationContext(
+					new String[] { "yhagent-ioc.xml" });
+			invoker = context.getBean(BillingInvoker.class);
+			invoker.getProgramList(getProgramList());
+			invoker.setProgramPrice(setProgramPrice());
+			invoker.setVodDayPrice(setVodDayPrice());
+			invoker.getProgramPrice(getProgramPrice());
+			invoker.addVodLog(addVodLog());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (invoker != null)
+				invoker.releaseResource();
+		}
 	}
 
 	// test getProgramList
-	static RequestInfo getProgramList() {
+	static GetProgramListRequestInfo getProgramList() {
 		GetProgramListRequestInfo requestInfo = new GetProgramListRequestInfo();
 		return requestInfo;
 	}
 
 	// test setProgramPrice
-	static RequestInfo setProgramPrice() {
+	static SetProgramPriceRequestInfo setProgramPrice() {
 		SetProgramPriceRequestInfo requestInfo = new SetProgramPriceRequestInfo();
-		requestInfo.hotelCode = "1111";
-		requestInfo.programId = "1211";
-		requestInfo.programPrice = "122111";
+		requestInfo.HotelCode = "YH";
+		requestInfo.ProgramId = "1";
+		requestInfo.ProgramPrice = "15.00";
 		return requestInfo;
 	}
-//	 test setVodDayPrice
-	static RequestInfo setVodDayPrice() {
+
+	// test setVodDayPrice
+	static VodDayPriceRequestInfo setVodDayPrice() {
 		VodDayPriceRequestInfo requestInfo = new VodDayPriceRequestInfo();
-		 
+		requestInfo.HotelCode = "YH";
+		requestInfo.DayPrice = "200.00";
 		return requestInfo;
 	}
-//	 test setProgramPrice
-	static RequestInfo getProgramPrice() {
+
+	// test setProgramPrice
+	static GetProgramPriceRequestInfo getProgramPrice() {
 		GetProgramPriceRequestInfo requestInfo = new GetProgramPriceRequestInfo();
-		requestInfo.HotelCode="111";
-		requestInfo.ProgramId = "1211";
-		requestInfo.ProgramPrice = "122111";
-		 
+		requestInfo.HotelCode = "YH";
+		requestInfo.ProgramId = "1";
+		requestInfo.ProgramPrice = "0";
 		return requestInfo;
 	}
-//	 test setProgramPrice
-	static RequestInfo addVodLog() {
+
+	// test setProgramPrice
+	static AddVodLogRequestInfo addVodLog() {
 		AddVodLogRequestInfo requestInfo = new AddVodLogRequestInfo();
-		List<VodLog> vodLogs=new ArrayList<VodLog>();
-		VodLog vodLog=new VodLog();
-		vodLog.setEndTime("1111");
+		List<VodLog> vodLogs = new ArrayList<VodLog>();
+		VodLog vodLog = new VodLog();
+		vodLog.setHotelCode("YH");
+		vodLog.setRoomNumber("8028");
+		vodLog.setVodClientId("34-40-B5-8D-83-B6");
+		vodLog.setProgramId("1");
+		vodLog.setStartTime("1312983240");
+		vodLog.setEndTime("1312983281");
+		vodLog.setTotalTime("41");
 		vodLogs.add(vodLog);
-		requestInfo.vodLogs =vodLogs;
-		 
+		requestInfo.vodLogs = vodLogs;
 		return requestInfo;
 	}
-//	 test setProgramPrice
-	static RequestInfo listVodLog() {
+
+	// test setProgramPrice
+	static ListVodLogRequestInfo listVodLog() {
 		ListVodLogRequestInfo requestInfo = new ListVodLogRequestInfo();
-		requestInfo.HotelCode = "1111";
-		requestInfo.RoomNumber = "1211";
-		requestInfo.PolicyType = "122111";
-		requestInfo.Occupancies=new ArrayList<Occupancy>();
+		requestInfo.HotelCode = "YH";
+		requestInfo.RoomNumber = "8028";
+		requestInfo.PolicyType = "0";
+
+		List<Occupancy> occupancies = new ArrayList<Occupancy>();
+		Occupancy occupancy = new Occupancy();
+		occupancy.RoomNumber = "8028";
+		occupancy.StartTime = "1383354000";
+		occupancy.EndTime = "1383440400";
+		occupancies.add(occupancy);
+		requestInfo.Occupancies = occupancies;
 		return requestInfo;
 	}
-//	 test setProgramPrice
-	static RequestInfo setTimeshiftDayPrice() {
+
+	// test setProgramPrice
+	static SetTimeshiftDayPriceRequestInfo setTimeshiftDayPrice() {
 		SetTimeshiftDayPriceRequestInfo requestInfo = new SetTimeshiftDayPriceRequestInfo();
-		 
+		requestInfo.HotelCode = "YH";
+		requestInfo.DayPrice = "60.00";
 		return requestInfo;
 	}
-//	 test setProgramPrice
+
+	// test setProgramPrice
 	static RequestInfo adTimeshiftLog() {
 		AdTimeshiftLogRequestInfo requestInfo = new AdTimeshiftLogRequestInfo();
-		 
+		VodLog vodLog = new VodLog();
+		vodLog.setHotelCode("YH");
+		vodLog.setRoomNumber("8028");
+		vodLog.setVodClientId("34-40-B5-8D-83-B6");
+		vodLog.setChannelId("1");
+		vodLog.setStartTime("1312983240");
+		vodLog.setEndTime("1312983281");
+		vodLog.setTotalTime("41");
 		return requestInfo;
 	}
+
 	// test setProgramPrice
 	static RequestInfo listTimeshiftLog() {
 		ListTimeshiftLogRequestInfo requestInfo = new ListTimeshiftLogRequestInfo();
-		 
+		requestInfo.HotelCode = "YH";
+		requestInfo.RoomNumber = "3028";
+		Occupancy occupancy = new Occupancy();
+		occupancy.EndTime = "123333333";
+		occupancy.StartTime = "123333333";
+		occupancy.RoomNumber = "3028";
+		List<Occupancy> occupancies = new ArrayList<Occupancy>();
+		requestInfo.Occupancies = occupancies;
 		return requestInfo;
 	}
-	
+
+ 
+
 }

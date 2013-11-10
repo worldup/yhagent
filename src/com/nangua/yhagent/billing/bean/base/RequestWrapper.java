@@ -5,6 +5,7 @@ import com.nangua.yhagent.billing.bean.requestinfo.AddVodLogRequestInfo;
 public class RequestWrapper {
 	public static <T extends RequestInfo>   Request genRequest(final T t) {
 		return new Request() {
+			 
 			public RequestInfo getRequestInfo() {
 				return t;
 			}
@@ -12,6 +13,10 @@ public class RequestWrapper {
 
 	}
 	public static void main(String []args){
-		System.out.println(RequestWrapper.genRequest(new AddVodLogRequestInfo()).toXml());
+		Request request=RequestWrapper.genRequest(new AddVodLogRequestInfo());
+		request.Service=new Service();
+		request.Service.setBusiness("!111");
+		request.Service.setFunction("22222");
+		System.out.println(request.toXml());
 	}
 }

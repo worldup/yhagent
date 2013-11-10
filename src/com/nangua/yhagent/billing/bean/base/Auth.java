@@ -3,6 +3,13 @@ package com.nangua.yhagent.billing.bean.base;
 import javax.xml.bind.annotation.XmlAttribute;
 
 public class Auth {
+public Auth(String hotelCode,String authToken){
+	this.hotelCode=hotelCode;
+	this.authToken=authToken;
+}
+public Auth(){
+	
+}
  private String hotelCode;
  private String authToken;
  @XmlAttribute(name="authToken")

@@ -4,6 +4,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 
 public class Service  {
+public Service(String business,String function){
+	this.business=business;
+	this.function=function;
+}
+public Service(){
+	
+}
  private String business;
  private String function;
  @XmlAttribute(name="business")

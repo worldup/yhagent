@@ -40,7 +40,7 @@ public class Helper {
 		}
 		return null;
 	}
-	public static String getRespCmdId(String content){
+	public static String getFunction(String content){
 	//	String content = "<root cmdId='0x0010'><ErrorMsg>此房间已开</ErrorMsg><ErrorCode>0x0001</ErrorCode></root>";
 	    InputSource source = new InputSource(new StringReader(content));
 	    XPath xPath = XPathFactory.newInstance().newXPath();

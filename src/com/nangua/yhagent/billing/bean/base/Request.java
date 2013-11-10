@@ -10,7 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public abstract class Request {
 	public Auth Auth;
 
-	public Service Service;
+	//public Service Service;
+  public  Service Service ;
 
 	
 	@XmlElement(name = "RequestInfo")

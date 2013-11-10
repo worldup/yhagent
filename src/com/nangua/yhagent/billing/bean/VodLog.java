@@ -11,6 +11,7 @@ public class VodLog {
 	private String startTime;
 	private String endTime;
 	private String totalTime;
+	private String channelId;
 	@XmlElement(name="EndTime")
 	public String getEndTime() {
 		return endTime;
@@ -66,5 +67,12 @@ public class VodLog {
 	}
 	public void setVodClientId(String vodClientId) {
 		this.vodClientId = vodClientId;
+	}
+	@XmlElement(name="ChannelId")
+	public String getChannelId() {
+		return channelId;
+	}
+	public void setChannelId(String channelId) {
+		this.channelId = channelId;
 	}
 }

@@ -3,9 +3,9 @@ package com.nangua.yhagent.billing.bean.requestinfo;
 import com.nangua.yhagent.billing.bean.base.RequestInfo;
 
 public class SetProgramPriceRequestInfo  extends RequestInfo{
-	public String hotelCode;
+	public String HotelCode;
 
-	public String programId;
+	public String ProgramId;
 
-	public String programPrice;
+	public String ProgramPrice;
 }
