@@ -4,6 +4,7 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpClientCodec;
+import io.netty.handler.logging.LoggingHandler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class BillingHttpInit extends ChannelInitializer<SocketChannel>  {
         // Create a default pipeline implementation.
         ChannelPipeline p = ch.pipeline();
 
-         
+        p.addLast("log",new  LoggingHandler());
 
         p.addLast("http",new HttpClientCodec());
         // Remove the following line if you don't want automatic content compression.

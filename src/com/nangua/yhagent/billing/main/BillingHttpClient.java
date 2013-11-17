@@ -30,11 +30,16 @@ public class BillingHttpClient {
 			ApplicationContext context = new ClassPathXmlApplicationContext(
 					new String[] { "yhagent-ioc.xml" });
 			invoker = context.getBean(BillingInvoker.class);
-			invoker.getProgramList(getProgramList());
-			invoker.setProgramPrice(setProgramPrice());
-			invoker.setVodDayPrice(setVodDayPrice());
-			invoker.getProgramPrice(getProgramPrice());
-			invoker.addVodLog(addVodLog());
+		 
+			//invoker.getProgramList(getProgramList());
+			// invoker.setProgramPrice(setProgramPrice());
+			//invoker.setVodDayPrice(setVodDayPrice());
+			//invoker.getProgramPrice(getProgramPrice());
+			 //invoker.addVodLog(addVodLog());
+			// invoker.listVodLog(listVodLog());
+			// invoker.listTimeshiftLog(listTimeshiftLog());
+			 invoker.adTimeshiftLog(adTimeshiftLog());
+			  //invoker.setTimeshiftDayPrice(setTimeshiftDayPrice());
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -88,7 +93,7 @@ public class BillingHttpClient {
 		vodLog.setEndTime("1312983281");
 		vodLog.setTotalTime("41");
 		vodLogs.add(vodLog);
-		requestInfo.vodLogs = vodLogs;
+		requestInfo.setVodLogs(vodLogs);
 		return requestInfo;
 	}
 
@@ -118,7 +123,7 @@ public class BillingHttpClient {
 	}
 
 	// test setProgramPrice
-	static RequestInfo adTimeshiftLog() {
+	static AdTimeshiftLogRequestInfo adTimeshiftLog() {
 		AdTimeshiftLogRequestInfo requestInfo = new AdTimeshiftLogRequestInfo();
 		VodLog vodLog = new VodLog();
 		vodLog.setHotelCode("YH");
@@ -132,7 +137,7 @@ public class BillingHttpClient {
 	}
 
 	// test setProgramPrice
-	static RequestInfo listTimeshiftLog() {
+	static ListTimeshiftLogRequestInfo listTimeshiftLog() {
 		ListTimeshiftLogRequestInfo requestInfo = new ListTimeshiftLogRequestInfo();
 		requestInfo.HotelCode = "YH";
 		requestInfo.RoomNumber = "3028";

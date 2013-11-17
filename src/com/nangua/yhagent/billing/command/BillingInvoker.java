@@ -8,6 +8,7 @@ import com.nangua.yhagent.billing.bean.requestinfo.AdTimeshiftLogRequestInfo;
 import com.nangua.yhagent.billing.bean.requestinfo.AddVodLogRequestInfo;
 import com.nangua.yhagent.billing.bean.requestinfo.GetProgramListRequestInfo;
 import com.nangua.yhagent.billing.bean.requestinfo.GetProgramPriceRequestInfo;
+import com.nangua.yhagent.billing.bean.requestinfo.ListTimeshiftLogRequestInfo;
 import com.nangua.yhagent.billing.bean.requestinfo.ListVodLogRequestInfo;
 import com.nangua.yhagent.billing.bean.requestinfo.SetProgramPriceRequestInfo;
 import com.nangua.yhagent.billing.bean.requestinfo.SetTimeshiftDayPriceRequestInfo;
@@ -34,7 +35,7 @@ public class BillingInvoker {
 		 Auth auth=new Auth();
 		 auth.setAuthToken("11111").setHotelCode("222");
 		 Service service =new Service();
-		 service.setBusiness("VOD").setFunction("getProgramList");
+		 service.setBusiness("VOD").setFunction("setProgramList");
 		 command.setData(requestInfo, auth, service).execute();
 	}
 	//设置点播按天收费价格接口 setVodDayPrice
@@ -86,7 +87,7 @@ public class BillingInvoker {
 		 command.setData(requestInfo, auth, service).execute();
 	}
 	//取得指定房间时移日志接口 listTimeshiftLog
-	public void listTimeshiftLog(AdTimeshiftLogRequestInfo requestInfo){
+	public void listTimeshiftLog(ListTimeshiftLogRequestInfo requestInfo){
 		 Auth auth=new Auth();
 		 auth.setAuthToken("11111").setHotelCode("222");
 		 Service service =new Service();

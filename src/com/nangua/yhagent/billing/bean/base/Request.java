@@ -7,15 +7,23 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="Request")
-public abstract class Request {
+public     class Request {
+	@XmlElement(name="Auth")
 	public Auth Auth;
 
-	//public Service Service;
+	@XmlElement(name="Service")
   public  Service Service ;
-
+  private  RequestInfo requestInfo;
+  
 	
+	public void setRequestInfo(RequestInfo requestInfo) {
+	this.requestInfo = requestInfo;
+}
+
 	@XmlElement(name = "RequestInfo")
-	public  abstract RequestInfo getRequestInfo(); 
+	public      RequestInfo getRequestInfo() {
+		return this.requestInfo;
+	}
  
 	public String toXml() {
 		StringWriter writer = new StringWriter();

@@ -32,7 +32,8 @@ public class HttpTest {
          
 
          // Simple Post form: factory used for big attributes
-         List<InterfaceHttpData> bodylist = formPost(b, "localhost", 8888, new URI("/test"), "<xml>haha</xml>",factory);
+         List<InterfaceHttpData> bodylist = formPost(b, "180.166.91.18", 10180, new URI("/fee/Recv.jsp"), 
+        		 "<?xml version='1.0' encoding='UTF-8'?><Request><Auth hotelCode='hotelCode' authToken='a940c8a6b0262a713daa7446be563b64' /> <Service business='VOD' function='getProgramList' /></Request>",factory);
          if (bodylist == null) {
              factory.cleanAllHttpDatas();
              return;
@@ -55,7 +56,7 @@ public class HttpTest {
 
      // Prepare the HTTP request.
      HttpRequest request =
-             new DefaultHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.POST, uriSimple.toASCIIString());
+             new DefaultHttpRequest(HttpVersion.HTTP_1_0, HttpMethod.POST, uriSimple.toASCIIString());
 
      // Use the PostBody encoder
      HttpPostRequestEncoder bodyRequestEncoder = null;
@@ -74,7 +75,7 @@ public class HttpTest {
      // add Form attribute
      try {
     	  
-         bodyRequestEncoder.addBodyAttribute("reqxml", xmlContent);
+         bodyRequestEncoder.addBodyAttribute("req", xmlContent);
          
      } catch (NullPointerException e) {
          // should not be since not null args

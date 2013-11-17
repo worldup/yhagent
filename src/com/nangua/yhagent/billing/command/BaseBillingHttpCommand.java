@@ -9,16 +9,17 @@ import io.netty.handler.codec.http.multipart.DefaultHttpDataFactory;
 import io.netty.handler.codec.http.multipart.HttpDataFactory;
 import io.netty.handler.codec.http.multipart.HttpPostRequestEncoder;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.nangua.yhagent.billing.bean.base.Auth;
-import com.nangua.yhagent.billing.bean.base.Service;
 import com.nangua.yhagent.billing.main.BillingChannelFactory;
 
 public abstract class BaseBillingHttpCommand  {
+	@Value("${yhagent.billing.reqstr}")
+	private String req;
 	@Value("${yhagent.billing.context}")
 	private String contextPath;
     @Value("${yhagent.encoding}")
@@ -35,6 +36,13 @@ public abstract class BaseBillingHttpCommand  {
    
 	public void execute() {
 		  String xmlContent=cmdBody();
+		  System.out.println(xmlContent);
+		/*  try {
+			xmlContent= java.net.URLEncoder.encode(xmlContent, encoding);
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}*/
 		Channel channel =channelFactory.getYHChannel();
 	    HttpDataFactory factory = new DefaultHttpDataFactory(DefaultHttpDataFactory.MINSIZE);
 
@@ -43,12 +51,12 @@ public abstract class BaseBillingHttpCommand  {
 	     HttpPostRequestEncoder bodyRequestEncoder = null;
 	    try {
 	     HttpRequest request =
-	             new DefaultHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.POST, new URI(contextPath).toASCIIString());
+	             new DefaultHttpRequest(HttpVersion.HTTP_1_0, HttpMethod.POST, new URI(contextPath).toASCIIString());
 
 	    
 	    
 	         bodyRequestEncoder = new HttpPostRequestEncoder(factory, request, false); // false not multipart
-	         bodyRequestEncoder.addBodyAttribute("reqxml", xmlContent);
+	         bodyRequestEncoder.addBodyAttribute(req, xmlContent);
 	         request = bodyRequestEncoder.finalizeRequest();
 	         
 
