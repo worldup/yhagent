@@ -24,7 +24,7 @@ public class BillingInvoker {
 	// 取得影片列表接口
 	public void getProgramList(GetProgramListRequestInfo requestInfo) {
 		 Auth auth=new Auth();
-		 auth.setAuthToken("11111").setHotelCode("222");
+		 auth.setAuthToken("11111").setHotelCode("1");
 		 Service service =new Service();
 		 service.setBusiness("VOD").setFunction("getProgramList");
 		 command.setData(requestInfo, auth, service).execute();
@@ -33,9 +33,9 @@ public class BillingInvoker {
     //设置节目价格接口 setProgramPrice 设置
 	public void setProgramPrice(SetProgramPriceRequestInfo requestInfo){
 		 Auth auth=new Auth();
-		 auth.setAuthToken("11111").setHotelCode("222");
+		 auth.setAuthToken("11111").setHotelCode("1");
 		 Service service =new Service();
-		 service.setBusiness("VOD").setFunction("setProgramList");
+		 service.setBusiness("VOD").setFunction("setProgramPrice");
 		 command.setData(requestInfo, auth, service).execute();
 	}
 	//设置点播按天收费价格接口 setVodDayPrice
@@ -83,7 +83,7 @@ public class BillingInvoker {
 		 Auth auth=new Auth();
 		 auth.setAuthToken("11111").setHotelCode("222");
 		 Service service =new Service();
-		 service.setBusiness("TIMESHIFT").setFunction("setTimeshiftDayPrice");
+		 service.setBusiness("TIMESHIFT").setFunction("adTimeshiftLog");
 		 command.setData(requestInfo, auth, service).execute();
 	}
 	//取得指定房间时移日志接口 listTimeshiftLog

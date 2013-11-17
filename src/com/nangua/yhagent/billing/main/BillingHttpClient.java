@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.nangua.yhagent.billing.bean.Occupancy;
 import com.nangua.yhagent.billing.bean.VodLog;
-import com.nangua.yhagent.billing.bean.base.RequestInfo;
 import com.nangua.yhagent.billing.bean.requestinfo.AdTimeshiftLogRequestInfo;
 import com.nangua.yhagent.billing.bean.requestinfo.AddVodLogRequestInfo;
 import com.nangua.yhagent.billing.bean.requestinfo.GetProgramListRequestInfo;
@@ -20,6 +19,7 @@ import com.nangua.yhagent.billing.bean.requestinfo.SetProgramPriceRequestInfo;
 import com.nangua.yhagent.billing.bean.requestinfo.SetTimeshiftDayPriceRequestInfo;
 import com.nangua.yhagent.billing.bean.requestinfo.VodDayPriceRequestInfo;
 import com.nangua.yhagent.billing.command.BillingInvoker;
+import com.nangua.yhagent.job.IDBTask;
 
 @Service
 public class BillingHttpClient {
@@ -29,17 +29,19 @@ public class BillingHttpClient {
 		try {
 			ApplicationContext context = new ClassPathXmlApplicationContext(
 					new String[] { "yhagent-ioc.xml" });
+			 
 			invoker = context.getBean(BillingInvoker.class);
 		 
-			//invoker.getProgramList(getProgramList());
-			// invoker.setProgramPrice(setProgramPrice());
+			//  invoker.getProgramList(getProgramList());
+			  invoker.setProgramPrice(setProgramPrice());
 			//invoker.setVodDayPrice(setVodDayPrice());
 			//invoker.getProgramPrice(getProgramPrice());
-			 //invoker.addVodLog(addVodLog());
+			// invoker.addVodLog(addVodLog());
 			// invoker.listVodLog(listVodLog());
-			// invoker.listTimeshiftLog(listTimeshiftLog());
-			 invoker.adTimeshiftLog(adTimeshiftLog());
-			  //invoker.setTimeshiftDayPrice(setTimeshiftDayPrice());
+			//invoker.listTimeshiftLog(listTimeshiftLog());
+			// invoker.adTimeshiftLog(adTimeshiftLog());
+			//  invoker.setTimeshiftDayPrice(setTimeshiftDayPrice());
+			 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -57,9 +59,9 @@ public class BillingHttpClient {
 	// test setProgramPrice
 	static SetProgramPriceRequestInfo setProgramPrice() {
 		SetProgramPriceRequestInfo requestInfo = new SetProgramPriceRequestInfo();
-		requestInfo.HotelCode = "YH";
+		requestInfo.HotelCode = "1";
 		requestInfo.ProgramId = "1";
-		requestInfo.ProgramPrice = "15.00";
+		requestInfo.ProgramPrice = "16.00";
 		return requestInfo;
 	}
 
@@ -133,6 +135,8 @@ public class BillingHttpClient {
 		vodLog.setStartTime("1312983240");
 		vodLog.setEndTime("1312983281");
 		vodLog.setTotalTime("41");
+		requestInfo.vodLogs=new ArrayList<VodLog> ();
+		requestInfo.vodLogs.add(vodLog);
 		return requestInfo;
 	}
 

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import com.nangua.yhagent.billing.test.HttpUploadClientHandler;
 @Service
 public class BillingAgentHttpHandler extends SimpleChannelInboundHandler<HttpObject>{
-	 @Value("${yhagent.encoding}")
+	 @Value("${yhagent.billing.encoding}")
 	 private String encoding; 
 	 private static final Logger logger = Logger.getLogger(HttpUploadClientHandler.class.getName());
     
