@@ -1,0 +1,12 @@
+0015
+2883266
+
+
+dbname = pms
+hostname = 192.168.0.179
+dbuser = root
+dbpasswd = Admin123
+dbport = 3306
+remotehost = 192.168.0.82
+remoteport = 60000
+iflrc = 0

@@ -4,37 +4,34 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.avaje.ebean.Ebean;
-import com.avaje.ebean.SqlRow;
-
 @Entity
-@Table(name="command")
-public class Command extends BaseDBObject{
+@Table(name="commands")
+public class Command  {
 	@Id
-	int commandsid;
+	int commandid;
 
-	String commandstype;
+	String commandtype;
 
 	String roomnumber;
 
 	String status;
 
 	String mark;
-	
-	public int getCommandsid() {
-		return commandsid;
+
+	public int getCommandid() {
+		return commandid;
 	}
 
-	public void setCommandsid(int commandsid) {
-		this.commandsid = commandsid;
+	public void setCommandid(int commandid) {
+		this.commandid = commandid;
 	}
 
-	public String getCommandstype() {
-		return commandstype;
+	public String getCommandtype() {
+		return commandtype;
 	}
 
-	public void setCommandstype(String commandstype) {
-		this.commandstype = commandstype;
+	public void setCommandtype(String commandtype) {
+		this.commandtype = commandtype;
 	}
 
 	public String getMark() {
@@ -60,6 +57,10 @@ public class Command extends BaseDBObject{
 	public void setStatus(String status) {
 		this.status = status;
 	}
-  
+	
+	@Override 
+	public String toString(){
+		return "commandid->"+commandid+" commandtype->"+commandtype+" mark->"+mark+" status->"+status+" ->roomnumber"+roomnumber;
+	}
 	
 }

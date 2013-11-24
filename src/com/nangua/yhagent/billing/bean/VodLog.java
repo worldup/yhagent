@@ -3,6 +3,7 @@ package com.nangua.yhagent.billing.bean;
 import javax.xml.bind.annotation.XmlElement;
 
 public class VodLog {
+	private String logId;
 	private String hotelCode;
 	private String roomNumber;
 	private String policyType;
@@ -75,4 +76,12 @@ public class VodLog {
 	public void setChannelId(String channelId) {
 		this.channelId = channelId;
 	}
+	@XmlElement(name="LogId")
+	public String getLogId() {
+		return logId;
+	}
+	public void setLogId(String logId) {
+		this.logId = logId;
+	}
+	
 }

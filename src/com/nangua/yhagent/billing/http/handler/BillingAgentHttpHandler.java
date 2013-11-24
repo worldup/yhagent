@@ -2,6 +2,7 @@ package com.nangua.yhagent.billing.http.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpObject;
 import io.netty.handler.codec.http.LastHttpContent;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.nangua.yhagent.billing.test.HttpUploadClientHandler;
 @Service
+@Sharable
 public class BillingAgentHttpHandler extends SimpleChannelInboundHandler<HttpObject>{
 	 @Value("${yhagent.billing.encoding}")
 	 private String encoding; 
@@ -28,8 +30,9 @@ public class BillingAgentHttpHandler extends SimpleChannelInboundHandler<HttpObj
 	             
 
 	            if (chunk instanceof LastHttpContent) {
-	                
-	                logger.info(chunk.content().toString(Charset.forName(encoding)));
+	                String result=chunk.content().toString(Charset.forName(encoding));
+	                logger.info(result);
+	                ctx.fireChannelRead(result);
 	             
 	        }
 	        }
