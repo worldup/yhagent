@@ -8,29 +8,41 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpServerCodec;
-import io.netty.handler.codec.http.QueryStringDecoder;
 import io.netty.handler.logging.LoggingHandler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Service;
+
+import com.avaje.ebean.Ebean;
 
  
 
  
 
  
- 
+@Service
 public class HttpServer {
+	
+	
 	private static final Logger logger = LoggerFactory.getLogger(HttpServer.class);
-	private static final String IP = "127.0.0.1";
-	private static final int PORT = 8888;
+	@Value("${httpServer.IP}")
+	private   String IP ;
+	@Value("${httpServer.PORT}")
+	private  int PORT ;
+	@Autowired
+	private HttpRequestRouterHandler httpRequestRouterHandler;
 	/**用于分配处理业务线程的线程组个数 */
 	protected static final int BIZGROUPSIZE = Runtime.getRuntime().availableProcessors()*2;	//默认
 	/** 业务出现线程大小*/
 	protected static final int BIZTHREADSIZE = 4;
 	private static final EventLoopGroup bossGroup = new NioEventLoopGroup(BIZGROUPSIZE);
 	private static final EventLoopGroup workerGroup = new NioEventLoopGroup(BIZTHREADSIZE);
-	protected static void run() throws Exception {
+	protected   void run() throws Exception {
 		ServerBootstrap b = new ServerBootstrap();
 		b.group(bossGroup, workerGroup);
 		b.channel(NioServerSocketChannel.class);
@@ -43,7 +55,7 @@ public class HttpServer {
 				pipeline.addLast("encoder", new StringEncoder(CharsetUtil.UTF_8));*/
 				pipeline.addLast("http",new HttpServerCodec());
 			    
-				pipeline.addLast("print",new HttpRequestPrintHandler());
+				pipeline.addLast("print",httpRequestRouterHandler);
 				
 				pipeline.addLast("logger",new LoggingHandler());
 			}
@@ -52,14 +64,21 @@ public class HttpServer {
 		b.bind(IP, PORT).sync();
 	}
 
-	protected static void shutdown() {
+	protected   void shutdown() {
 		workerGroup.shutdownGracefully();
 		bossGroup.shutdownGracefully();
 	}
 
 	public static void main(String[] args) throws Exception {
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+				new String[] { "yhagent-ioc.xml" });
 		logger.info("开始启动HttpServer服务器...");
-		HttpServer.run();
+		HttpServer httpServer=context.getBean(HttpServer.class);
+		httpServer.run();
+		logger.info("httpServer服务器已经启动");
+		logger.info("测试数据库连接...");
+		Ebean.createSqlQuery("select 1 from dual").findUnique();
+		logger.info("数据库连接正常");
 //		TcpServer.shutdown();
 	}
 }

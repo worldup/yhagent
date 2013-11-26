@@ -19,14 +19,16 @@ import com.nangua.yhagent.job.db.DemondBill;
 
 @Component
 public class DBTask implements IDBTask {
+	public static final String sqlDel = "delete from  commands where status = :status and commandtype=4";
 
-	@Scheduled(cron = "0/5 * *  * * ? ")
+	@Scheduled(cron = "${dbtask.cron}")
 	// 每5秒执行一次
 	public void deleteAllDoneCommand() {
-		String sqlDel = "delete from  commands where status = :status and commandtype=4";
-		SqlUpdate update = Ebean.createSqlUpdate(sqlDel);
+	  
+		/*SqlUpdate update = Ebean.createSqlUpdate(sqlDel);
 		update.setParameter("status", "2");
-		int modifiedCount = Ebean.execute(update);
+		int modifiedCount = Ebean.execute(update);*/
+		 
 
 	}
 	public boolean insertCommand(String content){

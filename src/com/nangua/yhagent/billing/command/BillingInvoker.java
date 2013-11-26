@@ -21,6 +21,8 @@ public class BillingInvoker {
 	private BillingChannelFactory channelFactory;
     @Autowired
     private BaseBillingHttpCommandAdapter command;
+    @Autowired
+    private DirectXmlCommand dcommand;
 	// 取得影片列表接口
     private Auth auth;
     
@@ -92,6 +94,10 @@ public class BillingInvoker {
 		 Service service =new Service();
 		 service.setBusiness("TIMESHIFT").setFunction("listTimeshiftLog");
 		 command.setData(requestInfo, auth, service).execute();
+	}
+	public void sendXmlDirectly(String cmdBody){
+		dcommand.setCmdBody(cmdBody).execute();
+	 
 	}
 	public void releaseResource(){
 		channelFactory.destroy();

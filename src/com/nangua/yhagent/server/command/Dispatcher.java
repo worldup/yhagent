@@ -6,19 +6,23 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import com.nangua.yhagent.billing.bean.ResultInfo;
 import com.nangua.yhagent.billing.bean.base.ResponseResult;
-import com.nangua.yhagent.billing.bean.base.Service;
 import com.nangua.yhagent.billing.bean.xml.Helper;
 import com.nangua.yhagent.job.DBTask;
-
+import com.nangua.yhagent.job.IDBTask;
+@Service
 public class Dispatcher {
 	public static final String defaultResult="<?xml version='1.0' encoding='UTF-8'?><Result> <ResultInfo resultcode='-1' errormessage='没有响应' /></Result>";
+	@Autowired
+	private IDBTask dbTask;
 	//返回结果 为xml样式
-	public static String dispatch(String command){
+	public   String dispatch(String command){
 		String function=findServiceFunction(command);
 		String business=findServiceBusiness(command);
 		if("TIMESHIFT".equals(business)){
@@ -27,14 +31,14 @@ public class Dispatcher {
 			
 		}else if("BILLING".equals(business)){
 			if("addDemondBill".equals(function)){
-				DBTask task=new DBTask();
-			 boolean exeResult=	task.insertCommand(command);
+			 
+			 boolean exeResult=	dbTask.insertCommand(command);
 			 return getResult(exeResult,"BILLING","addDemondBill");
 			}
 		}
 		return defaultResult;
 	}
-	private static String getResult(boolean resultcode,String business,String function){
+	private   String getResult(boolean resultcode,String business,String function){
 		ResponseResult result=new ResponseResult();
 		ResultInfo resultInfo=new ResultInfo();
 		resultInfo.setErrormessage("");
@@ -47,7 +51,7 @@ public class Dispatcher {
 			resultInfo.setErrormessage("执行出错");
 		}
 		
-		Service service=new Service();
+		com.nangua.yhagent.billing.bean.base.Service service=new com.nangua.yhagent.billing.bean.base.Service();
 		service.setBusiness(business);
 		service.setFunction(function);
 		result.setResultInfo(resultInfo);
